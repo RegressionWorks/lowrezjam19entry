@@ -1,5 +1,6 @@
 Repo for LOWREZJAM 2019 entry
 
+Tentative name: A Cowboy And An Alien Ship
 
 ![Game mockup](https://i.imgur.com/cSwt9Yl.png)
 
