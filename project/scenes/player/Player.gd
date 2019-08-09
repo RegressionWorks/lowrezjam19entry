@@ -9,6 +9,7 @@ const GRAV = 30
 var motion = Vector2()
 
 func _physics_process(delta: float) -> void:
+	handle_gravity(delta)
 	move_and_slide(motion)
 	movement_logic()
 	#air_logic()
@@ -33,3 +34,6 @@ func sprite_dir():
 		$Sprite.flip_h = false
 	if motion.x < 0:
 		$Sprite.flip_h = true
+
+func handle_gravity(delta: float):
+	motion.y += delta * GRAV
