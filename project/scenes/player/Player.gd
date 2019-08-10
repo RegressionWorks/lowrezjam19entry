@@ -1,21 +1,17 @@
 extends KinematicBody2D
 class_name Player
 
-const ACC = 8
-const SPEED = 40
+const ACC = 4
+const SPEED = 20
 const FRIC = 1
-const GRAV = 160
-
-const JUMP_SPEED = 80
+const GRAV = 30
 
 var motion = Vector2()
 
 func _physics_process(delta: float) -> void:
-	handle_gravity(delta)
-	move_and_slide(motion, Vector2(0, -1))
-	handle_jump()
+	move_and_slide(motion)
 	movement_logic()
-	#air_logic()
+	air_logic()
 	sprite_dir()
 
 func movement_logic():
@@ -26,14 +22,11 @@ func movement_logic():
 	else:
 		motion.x = lerp(motion.x, 0, FRIC) 
 
-func handle_gravity(delta: float):
-	motion.y += delta * GRAV
-
-func handle_jump():
+func air_logic():
 	if !is_on_floor():
-		return
-	if Input.is_action_pressed("jump"):
-		motion.y = -JUMP_SPEED
+		motion.y = GRAV
+	else:
+		motion.y = 0
 
 func sprite_dir():
 	if motion.x > 0:

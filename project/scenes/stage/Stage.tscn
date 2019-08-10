@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scenes/stage/Stage.gd" type="Script" id=1]
-[ext_resource path="res://scenes/stage/Floor.tres" type="TileSet" id=2]
+[ext_resource path="res://scenes/tiles/tiles.tres" type="TileSet" id=2]
 [ext_resource path="res://scenes/player/Player.tscn" type="PackedScene" id=3]
 
 [node name="Stage" type="Node2D"]
@@ -11,7 +11,7 @@ script = ExtResource( 1 )
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 8, 8 )
 format = 1
-tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 65536, 0, 0, 65543, 0, 0, 131072, 0, 0, 131079, 0, 0, 196608, 0, 0, 196615, 0, 0, 262144, 0, 0, 262151, 0, 0, 327680, 0, 0, 327687, 0, 0, 393216, 0, 0, 393223, 0, 0, 458752, 0, 0, 458753, 0, 0, 458754, 0, 0, 458755, 0, 0, 458756, 0, 0, 458757, 0, 0, 458758, 0, 0, 458759, 0, 0 )
+tile_data = PoolIntArray( -262139, 0, 0, 131071, 0, 0, 65544, 0, 0, 196607, 0, 0, 131080, 0, 0, 262143, 0, 0, 196616, 0, 0, 327679, 0, 0, 262152, 0, 0, 393215, 0, 0, 327688, 0, 0, 393216, 0, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393221, 0, 0, 393222, 0, 0, 393223, 0, 0 )
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 22.6933, 40 )

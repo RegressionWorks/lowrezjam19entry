@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/playerfire.png-367b2de81e15791c89d2a0ad32575296.stex"
+path="res://.import/pico 8 tiles.png-09aa4d7a3f2d429d6e2de977e380510f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/playerfire.png"
-dest_files=[ "res://.import/playerfire.png-367b2de81e15791c89d2a0ad32575296.stex" ]
+source_file="res://assets/sprites/pico 8 tiles.png"
+dest_files=[ "res://.import/pico 8 tiles.png-09aa4d7a3f2d429d6e2de977e380510f.stex" ]
 
 [params]
 
