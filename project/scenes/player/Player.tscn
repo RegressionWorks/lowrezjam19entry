@@ -112,10 +112,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.25, 0.3, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.0814555, 0.131455, 0.181455, 0.281455 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 47, 48, 49, 50, 51, 52 ]
+"values": [ 47, 49, 50, 51, 52 ]
 }
 
 [sub_resource type="Animation" id=9]
@@ -178,7 +178,7 @@ shape = SubResource( 1 )
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 hframes = 74
-frame = 21
+frame = 47
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 autoplay = "idle"

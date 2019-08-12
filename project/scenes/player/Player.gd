@@ -14,10 +14,12 @@ const WALL_JUMP_SPEED_CUTOFF = 50
 
 var motion: Vector2 = Vector2()
 var priority_anims: Array = Array()
+var anim_player: AnimationPlayer
 
 func _ready():
+	anim_player = $Sprite/AnimationPlayer
 	for anim in $Sprite/AnimationPlayer.get_animation_list():
-		if anim == "run" or anim == "idle":
+		if anim == "run" or anim == "idle" or anim == "fall":
 			continue
 		priority_anims.append(anim)
 
@@ -38,8 +40,10 @@ func movement_logic():
 		return
 	if Input.is_action_pressed("ui_right") && !Input.is_action_pressed("ui_left"):
 		motion.x = clamp((motion.x + ACC), 0, SPEED)
+		$Sprite/Gun_Muzzle.position.x = abs($Sprite/Gun_Muzzle.position.x)
 	elif Input.is_action_pressed("ui_left") && !Input.is_action_pressed("ui_right"):
 		motion.x = clamp((motion.x - ACC), -SPEED, 0)
+		$Sprite/Gun_Muzzle.position.x = -abs($Sprite/Gun_Muzzle.position.x)
 	else:
 		motion.x = lerp(motion.x, 0, FRIC) 
 
@@ -56,12 +60,15 @@ func handle_wall_grab():
 		wall_snapping = true
 	if wall_snapping:
 		motion.y = 0
+		anim_player.play("wall_snap")
 	if !wall_snapping and wall_grabbing:
 		motion.y = WALL_GRAB_GRAVITY
+		anim_player.play("wall_fall")
 	if wall_grabbing and Input.is_action_pressed("jump"):
 		wall_jumping = true
 		motion.x = WALL_JUMP_XSPEED if has_wall_left() else -WALL_JUMP_XSPEED
 		motion.y = -WALL_JUMP_YSPEED
+		anim_player.play("jump")
 
 func handle_wall_jump(delta):
 	if wall_jumping:
@@ -95,6 +102,7 @@ func handle_jump():
 	if Input.is_action_pressed("jump"):
 		motion.y = -JUMP_SPEED
 		jumping = true
+		anim_player.play("jump")
 
 var falling = true
 var landed = false
@@ -103,6 +111,8 @@ func handle_landed():
 	# landed will be true on a single frame
 	landed = falling and on_floor()
 	falling = !on_floor() && motion.y > 10
+	if landed:
+		anim_player.play("land")
 
 var shooting = false
 onready var muzzle = $Sprite/Gun_Muzzle
@@ -113,30 +123,24 @@ func gun_shooting():
 	if Input.is_action_just_pressed("fire"):
 		shooting = true
 		var fire = FIRE.instance()
+		fire.get_node('Sprite').flip_h = $Sprite/Gun_Muzzle.position.x < 0
 		get_parent().add_child(fire)
 		fire.position = muzzle.global_position
+		anim_player.play("shoot")
+		anim_player.seek(0)
 
 func set_animations():
-	var anim_player: AnimationPlayer = $Sprite/AnimationPlayer
 	var current = anim_player.current_animation
 	var is_priority = priority_anims.has(current)
 	var is_playing = anim_player.is_playing()
 	var is_priority_playing = is_priority and is_playing
-	if wall_snapping:
-		anim_player.play("wall_snap")
-	if !on_floor() and !wall_snapping and motion.y > 2:
-		anim_player.play("fall")
-	if landed:
-		anim_player.play("land")
-	if shooting:
-		anim_player.play("shoot")
-	if jumping or wall_jumping:
-		anim_player.play("jump")
-	elif !is_priority_playing:
+	if !is_priority_playing:
 		if on_floor() and motion.x != 0:
 			anim_player.play("run")
 		elif on_floor() and motion.x == 0:
 			anim_player.play("idle")
+		elif !on_floor() and motion.y > 2:
+			anim_player.play("fall")
 
 func sprite_dir():
 	if motion.x > 0:
