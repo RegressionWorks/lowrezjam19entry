@@ -38,6 +38,7 @@ func handle_gravity(delta: float):
 		motion.y += delta * GRAV
 
 var jumping = false
+
 func handle_jump():
 	jumping = false
 	if !on_floor():
@@ -48,6 +49,7 @@ func handle_jump():
 
 var falling = true
 var landed = false
+
 func handle_landed():
 	# landed will be true on a single frame
 	landed = falling and on_floor()
