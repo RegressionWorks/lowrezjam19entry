@@ -21,6 +21,7 @@ func _physics_process(delta: float) -> void:
 	handle_gravity(delta)
 	handle_jump()
 	handle_landed()
+	gun_shooting()
 	motion = move_and_slide(motion, Vector2(0, -1))
 	set_animations()
 	sprite_dir()
@@ -55,6 +56,18 @@ func handle_landed():
 	landed = falling and on_floor()
 	falling = !on_floor() && motion.y > 10
 
+var shooting = false
+onready var muzzle = $Sprite/Gun_Muzzle
+const FIRE = preload("res://scenes/player/Player_Fire.tscn")
+
+func gun_shooting():
+	shooting = false
+	if Input.is_action_just_pressed("fire"):
+		shooting = true
+		var fire = FIRE.instance()
+		get_parent().add_child(fire)
+		fire.position = muzzle.global_position
+
 func set_animations():
 	var current = $Sprite/AnimationPlayer.current_animation
 	var is_priority = priority_anims.has(current)
@@ -66,6 +79,8 @@ func set_animations():
 		$Sprite/AnimationPlayer.play("land")
 	if jumping:
 		$Sprite/AnimationPlayer.play("jump")
+	if shooting:
+		$Sprite/AnimationPlayer.play("shoot")
 	elif !is_priority_playing:
 		if on_floor() and motion.x != 0:
 			$Sprite/AnimationPlayer.play("run")
