@@ -15,6 +15,7 @@ func _physics_process(delta: float) -> void:
 	handle_gravity(delta)
 	handle_jump()
 	motion = move_and_slide(motion, Vector2(0, -1))
+	set_animations()
 	sprite_dir()
 
 func movement_logic():
@@ -33,6 +34,13 @@ func handle_jump():
 		return
 	if Input.is_action_pressed("jump"):
 		motion.y = -JUMP_SPEED
+		$Sprite/AnimationPlayer.play("jump")
+
+func set_animations():
+	if !is_on_floor() and motion.y > 0:
+		$Sprite/AnimationPlayer.play("fall")
+	elif motion.x == 0:
+		$Sprite/AnimationPlayer.play("idle")
 
 func sprite_dir():
 	if motion.x > 0:
