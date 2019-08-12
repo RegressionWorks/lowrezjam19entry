@@ -17,6 +17,6 @@ tile_data = PoolIntArray( 131071, 0, 0, 65544, 0, 0, 196607, 0, 0, 131080, 0, 0,
 position = Vector2( 22.7158, 24 )
 collision/safe_margin = 0.1
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 32, 32 )
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2( 0, 1 )
 current = true
