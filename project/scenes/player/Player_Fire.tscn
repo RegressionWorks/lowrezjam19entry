@@ -42,7 +42,7 @@ shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "fire"
-playback_speed = 1.5
+playback_speed = 2.0
 anims/fire = SubResource( 2 )
 [connection signal="body_entered" from="." to="." method="_on_Player_Fire_body_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
