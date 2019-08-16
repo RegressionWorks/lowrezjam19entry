@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/AliensAndGunslingers.ogg-b492ac7988aaf63eb9bd00555dcdaee9.oggstr"
+
+[deps]
+
+source_file="res://assets/AliensAndGunslingers.ogg"
+dest_files=[ "res://.import/AliensAndGunslingers.ogg-b492ac7988aaf63eb9bd00555dcdaee9.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

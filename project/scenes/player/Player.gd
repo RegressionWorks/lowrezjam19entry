@@ -16,6 +16,8 @@ var motion: Vector2 = Vector2()
 var priority_anims: Array = Array()
 var anim_player: AnimationPlayer
 
+var health = 3
+
 func _ready():
 	anim_player = $Sprite/AnimationPlayer
 	for anim in $Sprite/AnimationPlayer.get_animation_list():
@@ -34,6 +36,7 @@ func _physics_process(delta: float) -> void:
 	motion = move_and_slide(motion, Vector2(0, -1))
 	set_animations()
 	sprite_dir()
+	die()
 
 func movement_logic():
 	if wall_jumping:
@@ -59,7 +62,7 @@ func handle_wall_grab():
 	if !wall_grab_before and wall_grabbing:
 		wall_snapping = true
 	if wall_snapping:
-		motion.y = 0
+		#motion.y = 0
 		anim_player.play("wall_snap")
 	if !wall_snapping and wall_grabbing:
 		motion.y = WALL_GRAB_GRAVITY
@@ -115,19 +118,40 @@ func handle_landed():
 		anim_player.play("land")
 
 var shooting = false
+var can_shoot = true
 onready var muzzle = $Sprite/Gun_Muzzle
 const FIRE = preload("res://scenes/player/Player_Fire.tscn")
 
 func gun_shooting():
 	shooting = false
-	if Input.is_action_just_pressed("fire"):
+	if can_shoot && Input.is_action_just_pressed("fire"):
+		motion.x = 0
 		shooting = true
+		can_shoot = false
+		$FireTimer.start()
 		var fire = FIRE.instance()
 		fire.get_node('Sprite').flip_h = $Sprite/Gun_Muzzle.position.x < 0
 		get_parent().add_child(fire)
 		fire.position = muzzle.global_position
 		anim_player.play("shoot")
 		anim_player.seek(0)
+
+func _on_FireTimer_timeout():
+	can_shoot = true
+
+var keys = 0
+var dead = false
+
+func hurt():
+	health -= 1
+	if !dead:
+		$HurtAnim.play("hurt")
+
+func die():
+	if health == 0:
+		dead = true
+		set_physics_process(false)
+		anim_player.play("death")
 
 func set_animations():
 	var current = anim_player.current_animation
@@ -155,3 +179,7 @@ func on_floor():
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "wall_snap":
 		wall_snapping = false
+	if anim_name == "death":
+		get_tree().reload_current_scene()
+
+
